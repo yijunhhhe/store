@@ -2,9 +2,7 @@
     <h3 [style.color] = "'white'">ADMIN PORTAL</h3>
     <span class="example-spacer">
     </span>
-    <span [hidden] = "!loggedIn"><a mat-button>View Book List</a></span>
-     <span [hidden] = "!loggedIn"><a mat-button>add a book</a></span>
-     <span [hidden] = "!loggedIn"><a mat-button>log out</a></span>
+    <span [hidden] = "!loggedIn"><a mat-button routerLink="/bookList">View Book List</a></span>
+     <span [hidden] = "!loggedIn"><a mat-button routerLink="/addNewBook">add a book</a></span>
+     <span [hidden] = "!loggedIn"><a mat-button (click)="logout()">log out</a></span>
 </mat-toolbar>
-
-<button mat-raised-button class="mat-warn" (click)="toggleDisplay()">subb</button>

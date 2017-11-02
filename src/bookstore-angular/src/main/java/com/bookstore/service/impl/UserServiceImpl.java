@@ -15,8 +15,8 @@ import com.bookstore.repository.UserRepository;
 import com.bookstore.service.UserService;
 
 @Service
-public class UserServiceImpl implements UserService {
-
+public class UserServiceImpl implements UserService{
+	
 	private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
 	
 	@Autowired
@@ -26,13 +26,13 @@ public class UserServiceImpl implements UserService {
 	private RoleRepository roleRepository;
 	
 	@Transactional
-	public User createUser(User user, Set<UserRole> userRoles){
+	public User createUser(User user, Set<UserRole> userRoles) {
 		User localUser = userRepository.findByUsername(user.getUsername());
 		
-		if(localUser != null){
-			LOG.info("User with username {} already exist. Nothing will be done", user.getUsername());
-		}else{
-			for (UserRole ur: userRoles){
+		if(localUser != null) {
+			LOG.info("User with username {} already exist. Nothing will be done. ", user.getUsername());
+		} else {
+			for (UserRole ur : userRoles) {
 				roleRepository.save(ur.getRole());
 			}
 			

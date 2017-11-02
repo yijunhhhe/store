@@ -29,7 +29,7 @@ public class User implements UserDetails, Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="Id", nullable=false, updatable = false)
-	private Long id; //long and Long are different
+	private Long id;
 	
 	private String username;
 	private String password;
@@ -40,8 +40,8 @@ public class User implements UserDetails, Serializable{
 	private String phone;
 	private boolean enabled = true;
 	
-	@OneToMany(mappedBy = "user", cascade=CascadeType.ALL, fetch = FetchType.EAGER )
-	@JsonIgnore 
+	@OneToMany(mappedBy = "user", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonIgnore
 	private Set<UserRole> userRoles = new HashSet<>();
 
 	public Long getId() {
@@ -100,6 +100,7 @@ public class User implements UserDetails, Serializable{
 		this.phone = phone;
 	}
 
+	
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
@@ -115,9 +116,10 @@ public class User implements UserDetails, Serializable{
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
+		
 		Set<GrantedAuthority> authorities = new HashSet<>();
 		userRoles.forEach(ur -> authorities.add(new Authority(ur.getRole().getName())));
-	
+		
 		return authorities;
 	}
 
@@ -139,8 +141,12 @@ public class User implements UserDetails, Serializable{
 		return true;
 	}
 	
+	@Override
 	public boolean isEnabled() {
 		return enabled;
 	}
+	
+	
+	
 	
 }
