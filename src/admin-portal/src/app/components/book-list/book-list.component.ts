@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Book } from '../../models/book';
-import { Router } from '@angular/router'
-import { LoginService } from '../../services/login.service'
-import { GetBookListService } from '../../services/get-book-list.service'
+import { Router } from '@angular/router';
+import { LoginService } from '../../services/login.service';
+import { GetBookListService } from '../../services/get-book-list.service';
 
 
 @Component({
@@ -22,6 +22,12 @@ export class BookListComponent implements OnInit {
     private router: Router
 
   ) { }
+  onSelect(book:Book){
+    this.selectedBook = book;
+    this.router.navigate(['/viewBook',this.selectedBook.id])
+  }
+
+
 
   ngOnInit() {
     this.getBookListService.getBookList().subscribe(

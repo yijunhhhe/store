@@ -1,14 +1,14 @@
-import { AppPage } from './app.po';
+import { AdminPortalPage } from './app.po';
 
 describe('admin-portal App', () => {
-  let page: AppPage;
+  let page: AdminPortalPage;
 
   beforeEach(() => {
-    page = new AppPage();
+    page = new AdminPortalPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display message saying app works', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!');
+    expect(page.getParagraphText()).toEqual('app works!');
   });
 });
