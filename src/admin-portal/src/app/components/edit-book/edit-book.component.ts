@@ -13,9 +13,44 @@ import { EditBookService } from '../../services/edit-book.service';
 })
 export class EditBookComponent implements OnInit {
 
-  constructor() { }
+  private bookId: number;
+  private book: Book = new Book();
+  private bookUpdated: boolean;
+
+  constructor(
+    private uploadImageService: UploadImageService,
+    private editBookService: EditBookService,
+    private getBookService: GetBookService,
+    private route: ActivatedRoute,
+    private router: Router
+
+  ) { }
+
+  onSubmit(){
+    this.editBookService.sendBook(this.book).subscribe(
+      data => {
+        this.uploadImageService.modify(JSON.parse(JSON.parse(JSON.stringify(data))._body).id);
+        this.bookUpdated = true;
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
 
   ngOnInit() {
+    this.route.params.forEach((params:Params) => {
+      this.bookId = Number.parseInt(params['id']);
+    });
+
+    this.getBookService.getBook(this.bookId).subscribe(
+      res => {
+        this.book = res.json();
+      },
+      error =>{
+        console.log(error);
+      }
+    )
   }
 
 }
