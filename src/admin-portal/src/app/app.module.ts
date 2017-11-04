@@ -18,7 +18,7 @@ import { HttpModule } from '@angular/http';
 import { AddNewBookComponent } from './components/add-new-book/add-new-book.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddBookService } from './services/add-book.service';
-import { BookListComponent， DialogResultExampleDialog } from './components/book-list/book-list.component';
+import { BookListComponent, DialogResultExampleDialog } from './components/book-list/book-list.component';
 import { ViewBookComponent } from './components/view-book/view-book.component';
 import { EditBookComponent } from './components/edit-book/edit-book.component';
 
