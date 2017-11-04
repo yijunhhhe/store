@@ -3,7 +3,8 @@ import { Book } from '../../models/book';
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { GetBookListService } from '../../services/get-book-list.service';
-
+import { RemoveBookService } from '../../services/remove-book.service';
+import {MatDialog, MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-book-list',
@@ -19,17 +20,80 @@ export class BookListComponent implements OnInit {
   private removeBookList: Book[] = new Array();
   constructor(
     private getBookListService: GetBookListService,
-    private router: Router
+    private router: Router,
+    private removeBookService: RemoveBookService,
+    public dialog:MatDialog,
+
 
   ) { }
+
+  openDialog(book: Book){
+    let dialogRef = this.dialog.open(DialogResultExampleDialog);
+    dialogRef.afterClosed().subscribe(
+      result => {
+        console.log(result);
+        if(result == "yes"){
+          this.removeBookService.sendBook(book.id).subscribe(
+            res => {
+              console.log(res);
+              this.getBookList();
+            },
+            err => {
+              console.log(err);
+            }
+          );
+        }
+      }
+    );
+  }
+
   onSelect(book:Book){
     this.selectedBook = book;
     this.router.navigate(['/viewBook',this.selectedBook.id])
   }
 
+  updateRemoveBookList(checked:boolean, book:Book){
+    if(checked){
+      this.removeBookList.push(book);
+    }else{
+      this.removeBookList.splice(this.removeBookList.indexOf(book), 1);
+    }
+  }
 
+  updateSelected(checked: boolean){
+    if(checked){
+      this.allChecked = true;
+      this.removeBookList = this.bookList.slice();
+    }else{
+      this.allChecked = false;
+      this.removeBookList = [];
+    }
+  }
 
-  ngOnInit() {
+  removeSelectedBooks(){
+    let dialogRef = this.dialog.open(DialogResultExampleDialog);
+    dialogRef.afterClosed().subscribe(
+      result => {
+        console.log(result);
+        if(result == "yes"){
+          for(let book of this.removeBookList){
+            this.removeBookService.sendBook(book.id).subscribe(
+              res => {
+
+              },
+              err => {
+
+              }
+            );
+          }
+          location.reload();
+
+        }
+      }
+    );
+  }
+
+  getBookList(){
     this.getBookListService.getBookList().subscribe(
       res => {
         console.log(res.json());
@@ -41,4 +105,16 @@ export class BookListComponent implements OnInit {
     );
   }
 
+  ngOnInit() {
+    this.getBookList();
+  }
+
+}
+
+@Component({
+  selector: 'dialog-result-example-dialog',
+  templateUrl: './dialog-result-example-dialog.html'
+})
+export class DialogResultExampleDialog{
+  constructor(public dialogRef: MatDialogRef<DialogResultExampleDialog>){}
 }
